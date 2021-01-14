@@ -8,9 +8,12 @@ import Register from '../components/Register';
 import ViewBook from '../components/ViewBook';
 import { auth } from '../firebase';
 import { Link } from 'react-router-dom';
+import FrontPage from '../components/FrontPage';
+import UserPage from '../components/UserPage';
 
 const Tab1: React.FC = () => {
-  const [userId,setUserId] = React.useState();
+  const [userId,setUserId] = React.useState('');
+  const [user,setUser] = React.useState({})
   const changeUser = (user:any) => {
     setUserId(user.uid);
     console.log(user.displayName)
@@ -18,21 +21,27 @@ const Tab1: React.FC = () => {
   const getUser = () => {
     auth.onAuthStateChanged((user)=> {
       if (user) {
+        setUser(user);
         // User is signed in.
         console.log("user",user.uid)
-        changeUser(user)
+        setUserId(user.uid)
       } else {
         // No user is signed in.
+        setUserId('');
       }
     });
     
   }
+  React.useEffect(()=>{
+    getUser();
+  },[])
+  
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        {/* <IonToolbar>
           <IonTitle>Tab 1</IonTitle>
-        </IonToolbar>
+        </IonToolbar> */}
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
@@ -40,10 +49,13 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Link to="/login">Login</Link>
+        {/* <Link to="/login">Login</Link> */}
         {/* <AddBook userid={1}/> */}
-        <Register setUserId={changeUser}/>
-        <button onClick={()=>getUser()}>Get User id</button>
+        {userId==="" ? <FrontPage setUserId={setUserId}/> : 
+        <UserPage userId={user}/>
+        }
+        
+        {/* <button onClick={()=>getUser()}>Get User id</button> */}
       </IonContent>
     </IonPage>
   );

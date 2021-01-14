@@ -1,0 +1,14 @@
+.toolbarRegister {
+    color:#bc7c41 !important;
+}
+.bgview {
+    background-image:url('https://image.freepik.com/free-photo/front-view-books-with-grey-background_23-2148255885.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    position: fixed;
+    width:100%;
+}
+
+.colorchanged {
+    --ion-color-primary: #585f5d;
+}

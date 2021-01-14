@@ -10,7 +10,7 @@ import {
   IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { ellipse, square, triangle ,book, homeOutline ,home } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -34,6 +34,10 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Login from './components/Login';
+import RegisterMain from './components/RegisterMain';
+import AddBook from './components/AddBook';
+import LoginMain from './components/LoginMain';
+import AddBookMain from './components/AddBookMain';
 
 const App: React.FC = () => (
   <IonApp>
@@ -43,18 +47,21 @@ const App: React.FC = () => (
           <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/tab2" component={Tab2} exact={true} />
           <Route path="/tab3" component={Tab3} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={LoginMain} />
+          <Route path="/register" component={RegisterMain} />
+          <Route path="/addbook" component={AddBookMain} />
 
           <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
+            <IonIcon icon={home} />
+            
+            <IonLabel>Home</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+            <IonIcon icon={book} />
+            <IonLabel>Books</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={square} />

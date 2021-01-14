@@ -1,9 +1,10 @@
-import { IonButton, IonInput, IonTitle, IonToolbar } from '@ionic/react'
+import { IonBackButton, IonButton, IonInput, IonRouterLink, IonTabButton, IonTitle, IonToolbar } from '@ionic/react'
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import { auth,provider } from '../firebase';
 import AddBook from './AddBook';
 
-export default class Register extends Component {
+export default class FrontPage extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -11,20 +12,11 @@ export default class Register extends Component {
             userPassword:'',
             userId:'',
             isloggedin:false,
-            phonenumber:'',
-            displayname:''
-
             
         }
     }
     changeName = (name) => {
         this.setState({userName:name})
-    }
-    changeDisplayName = (name) => {
-        this.setState({displayname:name})
-    }
-    changePhoneNumber = (name) => {
-        this.setState({phonenumber:name})
     }
     changePassword = (pswd) => {
         this.setState({userPassword:pswd})
@@ -64,47 +56,30 @@ export default class Register extends Component {
           });
           
     }
-    addNameandPhoneNumber = () => {
-        console.log(this.state.phonenumber)
-        auth.currentUser.updateProfile({
-            displayName: this.state.displayname,
-            photoURL: this.state.phonenumber
-        },()=>this.props.history.push(`/login`))
-        console.log(auth.currentUser)
-    }
+    
     onSubmitWithUserName = () => {
         auth.createUserWithEmailAndPassword(this.state.userName, this.state.userPassword)
         .then((user) => {
             console.log("success",user)
-            this.addNameandPhoneNumber()
-            
         }).catch((err)=>console.log(err));
     }
     render() {
         return (
             <div style={{background:'#dcd4da',height:'100vh'}}>
                 <IonToolbar className="toolbarRegister">
-          <IonTitle>Register</IonTitle>
-        </IonToolbar>
-                <div style={{height:'30vh'}}>
+
+                <IonTitle>
+                    
+                    Book<font color="black" style={{fontWeight:'bold'}}>Ex</font></IonTitle>
+                </IonToolbar>
+                <div style={{height:'50vh'}}>
                     <img width="100%" src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80"/>
                 </div>
-               { !this.state.isloggedin &&<div style={{padding:'10px 30px'}}>
-                {/* <IonInput placeholder="eg.John Doe" value={this.state.userName} onIonChange={(e)=>this.changeName(e.detail.value)}/> */}
-                {/* <IonInput placeholder="Password" type="password" value={this.state.userPassword} onIonChange={(e)=>this.changeAuthor(e.detail.value)}/> */}
-                <IonInput style={{background:'white',width:'100%',margin:'20px 0px'}} placeholder="John Doe" onIonChange={(e)=>{this.changeDisplayName(e.target.value)}}/>
-                <IonInput style={{background:'white',width:'100%',margin:'20px 0px'}} placeholder="7654213i32" onIonChange={(e)=>{this.changePhoneNumber(e.target.value)}}/>
+                <div style={{padding:'10px 20px'}}>
+                <IonTabButton href="/login"><IonButton style={{margin:'20px 0px',width:'100%',border:0}}>Login</IonButton></IonTabButton>
 
-                <IonInput style={{background:'white',width:'100%',margin:'20px 0px'}} placeholder="johndoe@gmail.com" onIonChange={(e)=>{this.changeName(e.target.value)}}/>
-                <IonInput style={{background:'white',margin:'20px 0px'}} type="password" placeholder="********" onIonChange={(e)=>{this.changePassword(e.target.value)}}/>
-
-                <IonButton style={{margin:'20px 0px',width:'100%',border:0}} onClick={()=>this.onSubmitWithUserName()}>Sign Up</IonButton>
+                <IonTabButton href="/register"><IonButton style={{margin:'20px 0px',width:'100%',border:0}}>Register</IonButton></IonTabButton>
                 </div>
-                }
-                {/* <IonButton onClick={()=>console.log(this.state.isloggedin)}>View log</IonButton> */}
-                {
-                    this.state.isloggedin && <AddBook userid={this.state.userId}/>
-                }
             </div>
         )
     }
