@@ -84,6 +84,8 @@ export default class AddBook extends Component {
 
                     <IonButton style={{width:'100%',borderRadius:0,background:'white',margin:'20px 0px'}} onClick={()=>this.onSubmit()}>Add Book</IonButton>
                 </div>
+                <IonButton onClick={()=>console.log(auth.currentUser.displayName)}>CLikc</IonButton>
+
                 <div style={{height:'50vh'}}>
                     {/* <img width="100%" src="https://image.freepik.com/free-photo/front-view-books-with-grey-background_23-2148255885.jpg"/> */}
                 </div>

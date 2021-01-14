@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonPage } from '@ionic/react';
+import { IonAlert, IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonPage } from '@ionic/react';
 import { checkmark ,close } from 'ionicons/icons';
 import React, { Component } from 'react'
 import { auth, db } from '../firebase';
@@ -30,7 +30,8 @@ export default class ViewBook extends Component {
                     interested:doc.data().interested
                 })
                 
-              
+               
+
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -43,25 +44,11 @@ export default class ViewBook extends Component {
             console.log("interested",this.state.interested)
             db.collection("books").doc(id.toString()).update({
                 interested: this.state.interested,
-                phoneNumber:parseInt(auth.currentUser.photoURL),
-                ownerName:auth.currentUser.displayName
+               
             })
-                console.log(this.checkifYourIdinAnyItems(this.props.userId,null))
-                // if(this.checkifYourIdinAnyItems(this.props.userId,null)===0)
-                // console.log("then of checkif",this.state.tempId)
-                
-            //     let newuserid = this.checkifYourIdinAnyItems(this.props.userId,null);
-            //     if(newuserid!==null){
-            //         console.log("newuserid",newuserid)
-            //         let matched = this.checkifYourIdinAnyItems(newuserid,this.props.userId)
-            //         if(matched!==null && matched!==undefined){
-            //             console.log("matched with",matched.owner)
-            //         }
-            // }
-            
-
+              
             //check if there is a match 
-
+            this.checkifMatched()
         }).catch(function(error) {
             console.log("Error getting document:", error);
         });        // var interest = collection.interest
@@ -70,19 +57,20 @@ export default class ViewBook extends Component {
     }
     findMatchedData = (id) => {
         console.log("mybook")
-        auth.getUser(id).then(
-            rec => console.log(rec)
-        )
+       
         this.setState({
             matchedData:this.state.bookList.find(
                 i => i.owner === id
             )
         })
-        console.log(this.state.matchedData)
+        console.log("matcheddata",this.state.bookList.find(
+            i => i.owner === id
+        ))
     }
     arrayFunction = (array) => {
         array.map( i => this.state.myBookList.map(item => {
             if(item.interested.includes(i)){
+                console.log("match incluse")
                 this.setState({matched:true}) 
                 this.findMatchedData(i)
             }
@@ -135,7 +123,16 @@ export default class ViewBook extends Component {
         <div className="bgview" style={{backgroundImage:'https://image.freepik.com/free-photo/front-view-books-with-grey-background_23-2148255885.jpg'}}>
                 <div style={{padding:'30px 20px'}}>
             <div>
-                {this.state.bookList.length===0 && <h1>No Books Available</h1>}
+            <IonAlert
+          isOpen={this.state.matched}
+          onDidDismiss={() => this.setState({matched:false})}
+          cssClass='my-custom-class'
+          header={'MATCHED'}
+          subHeader={''}
+          message={`You are matched with ${this.state.matchedData.ownerName}.
+          call in ${this.state.matchedData.phoneNumber}`}
+          buttons={['OK']}
+        />                {this.state.bookList.length===0 && <h1>No Books Available</h1>}
                {/* <IonButton onClick={()=>this.load()}>Load Books</IonButton>  */}
                {this.state.bookList.map(
                    item => 

@@ -1,9 +1,10 @@
 import { IonButton, IonInput, IonTitle, IonToolbar } from '@ionic/react'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router';
 import { auth,provider } from '../firebase';
 import AddBook from './AddBook';
 
-export default class Register extends Component {
+ class Register extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -69,7 +70,7 @@ export default class Register extends Component {
         auth.currentUser.updateProfile({
             displayName: this.state.displayname,
             photoURL: this.state.phonenumber
-        },()=>this.props.history.push(`/login`))
+        }).then(()=>this.props.history.push(`/login`))
         console.log(auth.currentUser)
     }
     onSubmitWithUserName = () => {
@@ -109,3 +110,4 @@ export default class Register extends Component {
         )
     }
 }
+export default withRouter(Register)
