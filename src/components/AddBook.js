@@ -1,4 +1,4 @@
-import { IonAlert, IonButton, IonInput, IonPage } from '@ionic/react'
+import { IonAlert, IonButton, IonInput,IonItem, IonLabel, IonSelect, IonSelectOption, IonPage } from '@ionic/react'
 import React, { Component } from 'react'
 import { auth, db } from '../firebase';
 
@@ -81,7 +81,13 @@ export default class AddBook extends Component {
                 <div style={{height:'50vh',padding:'30px 20px'}}>
                     <IonInput style={{background:'white',margin:'20px 0px'}} placeholder="book name" value={this.state.bookName}  onIonChange={(e)=>this.changeName(e.target.value)}/>
                     <IonInput style={{background:'white',margin:'20px 0px'}} placeholder="book author" value={this.state.bookAuthor} onIonChange={(e)=>this.changeAuthor(e.target.value)}/>
-
+                    <IonItem>
+                    {/* <IonLabel>Do you want to retain ownership</IonLabel> */}
+                    <IonSelect placeholder="Do you want to retain ownership">
+                    <IonSelectOption value="yes">YES</IonSelectOption>
+                    <IonSelectOption value="no">NO</IonSelectOption>
+                    </IonSelect>
+                    </IonItem>
                     <IonButton style={{width:'100%',borderRadius:0,background:'white',margin:'20px 0px'}} onClick={()=>this.onSubmit()}>Add Book</IonButton>
                 </div>
                 <IonButton onClick={()=>console.log(auth.currentUser.displayName)}>CLikc</IonButton>
